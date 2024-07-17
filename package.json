@@ -1,0 +1,28 @@
+{
+  "name": "mern-stack-app",
+  "version": "1.0.0",
+  "description": "This is the repository for the LinkedIn Learning course Learning Full-Stack JavaScript Development: MongoDB, Node, and React. The full course is available from [LinkedIn Learning][lil-course-url].",
+  "main": "index.js",
+  "scripts": {
+    "dev:server": "tsnd src/server/server.ts",
+    "dev:bundler": "webpack -w --mode=development"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "ejs": "^3.1.10",
+    "express": "^4.19.2",
+    "mongodb": "^6.8.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "ts-loader": "^9.5.1",
+    "typescript": "^5.5.3",
+    "webpack": "^5.93.0",
+    "webpack-cli": "^5.1.4"
+  },
+  "devDependencies": {
+    "eslint": "^9.7.0",
+    "prettier": "^3.3.3",
+    "ts-node-dev": "^2.0.0"
+  }
+}
