@@ -8,5 +8,5 @@ const root = createRoot(container);
 
 
 root.render(
-    <App initialData={{ contests: [] }} /> // start with an empty data
+    <App initialData={ (window as any).initialData } />
 ); 
