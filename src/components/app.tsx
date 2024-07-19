@@ -3,15 +3,15 @@ import { useState, useEffect } from "react";
 import Contest from "./contest";
 
 const App = ({ initialData }) => {
-    const [page, setPage] = useState<"contestList" | "contest">("contestList");
-    const [currentContestId, setCurrentContestId] = useState<string>();
+    const [page, setPage] = useState<"contestList" | "contest">(initialData.currentContest ? "contest" : "contestList");
+    const [currentContest, setCurrentContest] = useState<object | undefined>(initialData.currentContest);
 
     useEffect(() => {
         window.onpopstate = (event) => {
             const newPage = event.state?.contestId ? "contest" : "contestList";
 
             setPage(newPage);
-            setCurrentContestId(event.state?.contestId);
+            setCurrentContest({id: event.state?.contestId});
         };
     },[]);
 
@@ -20,7 +20,7 @@ const App = ({ initialData }) => {
         window.history.pushState({contestId}, "", `/contest/${contestId}`);
 
         setPage("contest");
-        setCurrentContestId(contestId);
+        setCurrentContest({id: contestId});
     }
 
     const pageContent = () => {
@@ -34,7 +34,7 @@ const App = ({ initialData }) => {
                 );
         
             case "contest":
-                return <Contest id={currentContestId} />;
+                return <Contest initialContest={currentContest} />;
         }
     }
 
