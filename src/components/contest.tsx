@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { fetchContestList, fetchContest } from "../api-client";
+import { fetchContest } from "../api-client";
 import Header from "./header";
 
 const Contest = ({ id }) => {
