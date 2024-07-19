@@ -1,15 +1,41 @@
 import express from "express";
 import cors from "cors";
 import testData from "../test-data.json";
+import { connectClient } from "./db";
 
 const router = express.Router();
 router.use(cors());
 
-router.get("/contests", (req, res) => {
+// API to get all contests
+router.get("/contests", async (req, res) => {
     // get the data from MongoDB
-    res.send({ contests: testData});
+    const client = await connectClient();
+
+    const contests = await client
+        .collection("contests")
+        .find()
+        .project({
+            id: 1,
+            categoryName: 1,
+            contestName: 1,
+            _id: 0, // do not include
+        })
+        .toArray();
+
+    res.send({ contests });
+    // res.send({ contests: testData});
 });
 
-// router.get("/contest");
+
+// API to get onyl a single contest
+router.get("/contest/:contestId", async (req, res) => {
+    const client  = await connectClient();
+
+    const contest = await client
+        .collection("contests")
+        .findOne({ id: req.params.contestId });
+
+    res.send({ contest });
+});
 
 export default router;
