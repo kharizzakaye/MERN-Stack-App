@@ -2,9 +2,12 @@ import express from "express";
 import cors from "cors";
 import testData from "../test-data.json";
 import { connectClient } from "./db";
+import { ReturnDocument } from "mongodb";
 
+// middleware
 const router = express.Router();
 router.use(cors());
+router.use(express.json());
 
 // API to get all contests
 router.get("/contests", async (req, res) => {
@@ -37,5 +40,31 @@ router.get("/contest/:contestId", async (req, res) => {
 
     res.send({ contest });
 });
+
+
+// API to update names
+router.post("/contest/:contestId", async (req, res) => {
+    const client = await connectClient();
+
+    const { newNameValue } = req.body;
+
+    const doc = await client
+        .collection("contests")
+        .findOneAndUpdate(
+            { id: req.params.contestId },
+            {
+                $push: {
+                    names: {
+                        id: newNameValue.toLowerCase().replace(/\s/g, "-"),
+                        name: newNameValue,
+                        timestamp: new Date(),
+                    }
+                }
+            },
+            { returnDocument: "after" }
+        );
+
+    res.send({ updatedContest: doc.value });
+})
 
 export default router;
