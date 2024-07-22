@@ -2,7 +2,6 @@ import express from "express";
 import cors from "cors";
 import testData from "../test-data.json";
 import { connectClient } from "./db";
-import { ReturnDocument } from "mongodb";
 
 // middleware
 const router = express.Router();
@@ -48,6 +47,8 @@ router.post("/contest/:contestId", async (req, res) => {
 
     const { newNameValue } = req.body;
 
+    console.log(newNameValue)
+
     const doc = await client
         .collection("contests")
         .findOneAndUpdate(
@@ -64,7 +65,8 @@ router.post("/contest/:contestId", async (req, res) => {
             { returnDocument: "after" }
         );
 
-    res.send({ updatedContest: doc.value });
+    console.log("docs", doc)
+    res.send({ updatedContest: doc });
 })
 
 export default router;
